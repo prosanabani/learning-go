@@ -1,5 +1,7 @@
 package main
 
+import interfacesexamples "github.com/prosanabani/learning-go/interfaces_examples"
+
 type shape interface {
 	area() int
 	circumference() int
@@ -36,10 +38,11 @@ func printCirum(currentShape shape) {
 
 func main() {
 
-	myCircle := circle{width: 10, height: 20}
-	myRectangle := rectangle{depth: 10, height: 20}
+	// myCircle := circle{width: 10, height: 20}
+	// myRectangle := rectangle{depth: 10, height: 20}
 
-	printCirum(myCircle)
-	printCirum(myRectangle)
+	// printCirum(myCircle)
+	// printCirum(myRectangle)
 
+	interfacesexamples.Interfacesexamples()
 }
