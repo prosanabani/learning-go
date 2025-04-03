@@ -2,68 +2,43 @@ package main
 
 import "fmt"
 
-type expense interface {
-	cost() float64
-}
 
-func getExpenseReport(e expense) (text string, cost float64) {
-	switch v := e.(type) {
-	case  email:
-return "Email to " + v.toAddress , v.cost()
-	case sms:
-		return "SMS to " + v.toPhoneNumber  , v.cost()
-	default:
-return "Invalid expense type" ,  0.0
+func sendSMSToCouple(msgToCustomer, msgToSpouse string) (int, error) {
+	customerMessageCost ,  err := sendSMS(msgToCustomer)
+	if err != nil {
+		return 0 , err
+	}
+	spouseMessageCost  , err :=sendSMS(msgToSpouse)
+	if err != nil {
+		return 0 , err
 	}
 
+	return customerMessageCost + spouseMessageCost ,  nil 
+
 }
 
-type email struct {
-	isSubscribed bool
-	body         string
-	toAddress    string
-}
+// don't edit below this line
 
-type sms struct {
-	isSubscribed  bool
-	body          string
-	toPhoneNumber string
-}
-
-type invalid struct{}
-
-func (e email) cost() float64 {
-	if !e.isSubscribed {
-		return float64(len(e.body)) * .05
+func sendSMS(message string) (int, error) {
+	const maxTextLen = 25
+	const costPerChar = 2
+	if len(message) > maxTextLen {
+		return 0, fmt.Errorf("can't send texts over %v characters", maxTextLen)
 	}
-	return float64(len(e.body)) * .01
+	return costPerChar * len(message), nil
 }
 
-func (s sms) cost() float64 {
-	if !s.isSubscribed {
-		return float64(len(s.body)) * .1
-	}
-	return float64(len(s.body)) * .03
-}
 
-func (i invalid) cost() float64 {
-	return 0.0
-}
+func main(){
 
-func main() {
+	customerMessage := "ali here"
+	spouseMessage:= "mohammed hekjhjyfugilktdyfuglilukyfstdyfui;lukyfjre"
 
-	myEmail := email{
-		isSubscribed: true,
-		body:         "kjvdnwjfdhv",
-		toAddress:    "sdkjdnbkrje",
-	}
-	mySms := sms{
-		isSubscribed:  true,
-		body:          "kjvdnwjfdhv",
-		toPhoneNumber: "986451",
-	}
+	fmt.Println(sendSMSToCouple(customerMessage , spouseMessage))
 
-	fmt.Println(getExpenseReport(myEmail))
-	fmt.Println(getExpenseReport(mySms))
+
+
+
+
 
 }
