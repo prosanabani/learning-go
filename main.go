@@ -7,18 +7,14 @@ type expense interface {
 }
 
 func getExpenseReport(e expense) (text string, cost float64) {
-	email, isEmail := e.(email)
-	
-	if isEmail {
-		return email.toAddress, email.cost()
+	switch v := e.(type) {
+	case  email:
+return "Email to " + v.toAddress , v.cost()
+	case sms:
+		return "SMS to " + v.toPhoneNumber  , v.cost()
+	default:
+return "Invalid expense type" ,  0.0
 	}
-	sms, isSms := e.(sms)
-	if isSms {
-		
-		return sms.toPhoneNumber, sms.cost()
-	}
-
-	return  "", 0.0 
 
 }
 
