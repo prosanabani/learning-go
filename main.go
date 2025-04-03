@@ -3,107 +3,44 @@ package main
 import "fmt"
 
 type expense interface {
-	cost() float64
+	cost(rate int) (expenseCost float64)
+}
+
+type formatter interface {
+	print() (PrintedString string)
 }
 
 type email struct {
 	isSubscribed bool
 	body         string
-	toAddress    string
 }
 
-type sms struct {
-	isSubscribed  bool
-	body          string
-	toPhoneNumber string
-}
+func (e email) cost(rate int) float64 {
+	if e.isSubscribed {
+		return float64(len(e.body)) * float64(rate)
 
-type invalid struct{}
-
-func (e email) cost() float64 {
-	if !e.isSubscribed {
-		return float64(len(e.body)) * .05
 	}
-	return float64(len(e.body)) * .01
+	return float64(len(e.body)) * float64(rate)
 }
 
-func (s sms) cost() float64 {
-	if !s.isSubscribed {
-		return float64(len(s.body)) * .1
-	}
-	return float64(len(s.body)) * .03
+func (e email) print() string {
+	return e.body
 }
 
-func (i invalid) cost() float64 {
-	return 0.0
-}
-
-func getExpenseReport(e expense) (string, float64) {
-	email, isEmail := e.(email)
-	sms, isSms := e.(sms)
-
-	if isEmail {
-		return email.toAddress, e.cost()
-	}
-	if isSms {
-		return sms.toPhoneNumber, e.cost()
-	}
-
-	return "", 0.0
-}
-
-func printType(e expense) (string  , float64) {
-	switch v := e.(type) {
-	case email:
-		return v.toAddress ,  v.cost()
-
-	case sms:
-		return v.toPhoneNumber   ,  v.cost()
-
-	default:
-		return "" , 0.0
-	}
+func PrintEmailDetails(e expense, f formatter , rate int) {
+	fmt.Println("Email Details:")
+	fmt.Println("Cost:", e.cost(rate))
+	fmt.Println("Body:", f.print())
 }
 
 func main() {
 
 	myEmail := email{
 		isSubscribed: true,
-		body:         "dskjnvskjn",
-		toAddress:    "tusin",
-	}
-
-	mySms := sms{
-		isSubscribed:  false,
-		body:          "sdlkjnvd",
-		toPhoneNumber: "42458645312",
+		body:         "kjvdnwjfdhv",
 	}
 
 
-	myInvalid := invalid{}
 
-
-
-	// x , y := getExpenseReport(myEmail)
-	// fmt.Println(x)
-	// fmt.Println(y)
-
-	// smsX, smsY := getExpenseReport(mySms)
-	// fmt.Println(smsX)
-	// fmt.Println(smsY)
-
-
-	smsX, smsY := printType(mySms)
-	fmt.Println(smsX)
-	fmt.Println(smsY)
-
-	emailX, emailY := printType(myEmail)
-	fmt.Println(emailX)
-	fmt.Println(emailY)
-
-	myInvalidX, myInvalidY := printType(myInvalid)
-	fmt.Println(myInvalidX)
-	fmt.Println(myInvalidY)
-
-
+	PrintEmailDetails(myEmail, myEmail,  985)
 }
