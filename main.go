@@ -1,48 +1,109 @@
 package main
 
-import interfacesexamples "github.com/prosanabani/learning-go/interfaces_examples"
+import "fmt"
 
-type shape interface {
-	area() int
-	circumference() int
-}
-
-type circle struct {
-	width, height int
-}
-type rectangle struct {
-	depth, height int
+type expense interface {
+	cost() float64
 }
 
-func (currentCircle circle) area() int {
-	return currentCircle.width * currentCircle.height
+type email struct {
+	isSubscribed bool
+	body         string
+	toAddress    string
 }
 
-func (currentCircle rectangle) area() int {
-	return currentCircle.height * currentCircle.height
-}
-func (currentCircle circle) circumference() int {
-	return currentCircle.height * currentCircle.width
-}
-func (currentCircle rectangle) circumference() int {
-	return currentCircle.height * currentCircle.depth
+type sms struct {
+	isSubscribed  bool
+	body          string
+	toPhoneNumber string
 }
 
-func PrintArea(currentShape shape) {
-	println(currentShape.area())
+type invalid struct{}
+
+func (e email) cost() float64 {
+	if !e.isSubscribed {
+		return float64(len(e.body)) * .05
+	}
+	return float64(len(e.body)) * .01
 }
 
-func printCirum(currentShape shape) {
-	println(currentShape.circumference())
+func (s sms) cost() float64 {
+	if !s.isSubscribed {
+		return float64(len(s.body)) * .1
+	}
+	return float64(len(s.body)) * .03
+}
+
+func (i invalid) cost() float64 {
+	return 0.0
+}
+
+func getExpenseReport(e expense) (string, float64) {
+	email, isEmail := e.(email)
+	sms, isSms := e.(sms)
+
+	if isEmail {
+		return email.toAddress, e.cost()
+	}
+	if isSms {
+		return sms.toPhoneNumber, e.cost()
+	}
+
+	return "", 0.0
+}
+
+func printType(e expense) (string  , float64) {
+	switch v := e.(type) {
+	case email:
+		return v.toAddress ,  v.cost()
+
+	case sms:
+		return v.toPhoneNumber   ,  v.cost()
+
+	default:
+		return "" , 0.0
+	}
 }
 
 func main() {
 
-	// myCircle := circle{width: 10, height: 20}
-	// myRectangle := rectangle{depth: 10, height: 20}
+	myEmail := email{
+		isSubscribed: true,
+		body:         "dskjnvskjn",
+		toAddress:    "tusin",
+	}
 
-	// printCirum(myCircle)
-	// printCirum(myRectangle)
+	mySms := sms{
+		isSubscribed:  false,
+		body:          "sdlkjnvd",
+		toPhoneNumber: "42458645312",
+	}
 
-	interfacesexamples.Interfacesexamples()
+
+	myInvalid := invalid{}
+
+
+
+	// x , y := getExpenseReport(myEmail)
+	// fmt.Println(x)
+	// fmt.Println(y)
+
+	// smsX, smsY := getExpenseReport(mySms)
+	// fmt.Println(smsX)
+	// fmt.Println(smsY)
+
+
+	smsX, smsY := printType(mySms)
+	fmt.Println(smsX)
+	fmt.Println(smsY)
+
+	emailX, emailY := printType(myEmail)
+	fmt.Println(emailX)
+	fmt.Println(emailY)
+
+	myInvalidX, myInvalidY := printType(myInvalid)
+	fmt.Println(myInvalidX)
+	fmt.Println(myInvalidY)
+
+
 }
