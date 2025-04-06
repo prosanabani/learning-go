@@ -1,0 +1,37 @@
+{
+  "go.useLanguageServer": true,
+  "gopls": {
+    "completeUnimported": true,
+    "usePlaceholders": true,
+    "analyses": {
+      "unusedparams": true,
+      "unusedwrite": true
+    }
+  },
+  "go.lintTool": "staticcheck",
+  "go.lintFlags": ["-tests=false"],
+  "go.formatTool": "goimports",
+  "go.testFlags": ["-v", "-count=1"],
+  "go.testTimeout": "30s",
+  "go.toolsManagement.autoUpdate": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true,
+    "source.organizeImports": true
+  },
+  "editor.defaultFormatter": "golang.go",
+  "[go]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    }
+  },
+  "editor.suggestSelection": "first",
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+  "editor.suggest.insertMode": "replace",
+  "files.autoSave": "onFocusChange"
+}
