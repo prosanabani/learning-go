@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/prosanabani/learning-go/loops"
+	"github.com/prosanabani/learning-go/arrays"
 )
 
 func main() {
-	loops.Main()
+	arrays.Main()
 }
