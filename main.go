@@ -1,7 +1,9 @@
 package main
 
-import dividepackage "github.com/prosanabani/learning-go/divide_Package"
+import (
+	"github.com/prosanabani/learning-go/loops"
+)
 
 func main() {
-	dividepackage.Main()
+	loops.Main()
 }
