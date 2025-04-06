@@ -2,6 +2,6 @@ package types // Use the same package name if these files are part of the same p
 
 // Person struct definition
 type Person struct {
-    Name string
-    Age  int
+	Name string
+	Age  int
 }

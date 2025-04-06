@@ -9,11 +9,9 @@ func Api() string {
 	return "Api" + constants.APIPrefix
 }
 
-
-
-func ReturnJust (x  ,   y int) (types.Person)  {
-	return types.Person{ 
-		Name:  "Mohammed",
+func ReturnJust(x, y int) types.Person {
+	return types.Person{
+		Name: "Mohammed",
 		Age:  y,
 	}
 }
